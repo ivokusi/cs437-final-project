@@ -5,6 +5,7 @@ import board
 import adafruit_mcp3xxx.mcp3008 as MCP
 from adafruit_mcp3xxx.analog_in import AnalogIn
 import gpiozero
+import json
 
 class Pot:
 
@@ -38,13 +39,15 @@ class Pot:
 		return { "value": value, "status": status }
 
 	def set_water_level_threshold(self):
-		body = request.json
-		threshold = body["threshold"]
+		threshold = self.water_level.value
 		
 		self._set_config("water_level_threshold", threshold)
 		self.water_level_threshold = threshold
 
 		return { "success": True }
+
+	def get_water_level_threshold(self):
+		return { "threshold": self.water_level_threshold }
 
 	def get_light(self):
 		value = self.light.value
@@ -52,13 +55,15 @@ class Pot:
 		return { "value": value, "status": status }
 
 	def set_light_threshold(self):
-		body = request.json
-		threshold = body["threshold"]
+		threshold = self.light.value
 		
 		self._set_config("light_threshold", threshold)
 		self.light_threshold = threshold
 
 		return { "success": True }
+
+	def get_light_threshold(self):
+		return { "threshold": self.light_threshold }
 
 	def get_soil_moisture(self):
 		value = self.soil_moisture.value
@@ -66,13 +71,15 @@ class Pot:
 		return { "value": value, "status": status }
 
 	def set_soil_moisture_threshold(self):
-		body = request.json
-		threshold = body["threshold"]
+		threshold = self.soil_moisture.value
 		
 		self._set_config("soil_moisture_threshold", threshold)
 		self.soil_moisture_threshold = threshold
 
 		return { "success": True }
+
+	def get_soil_moisture_threshold(self):
+		return { "threshold": self.soil_moisture_threshold }
 
 	def turn_on_water_pump(self):
 		self.water_pump.off()
